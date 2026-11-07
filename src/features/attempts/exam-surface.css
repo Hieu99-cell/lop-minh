@@ -1,0 +1,897 @@
+﻿/* Operate surface: one accent, readable mathematics, shared play/review geometry. */
+.exam-surface {
+  --exam-motion: 150ms;
+  --exam-muted: var(--muted);
+  --exam-line: var(--line);
+  --exam-wash: var(--muted-surface);
+  --exam-correct: var(--correct);
+  --exam-correct-bg: var(--correct-background);
+  --exam-wrong: var(--wrong);
+  --exam-wrong-bg: var(--wrong-background);
+  --exam-blank: var(--blank);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink);
+}
+.exam-surface .muted,
+.exam-surface .small,
+.exam-surface p {
+  color: var(--exam-muted);
+}
+.exam-surface ::selection {
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+}
+.exam-surface input {
+  caret-color: var(--primary);
+}
+.exam-surface .attempt-layout {
+  max-width: 1280px;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 24px;
+  padding: 20px 24px;
+}
+.exam-surface .attempt-layout > * {
+  min-width: 0;
+}
+.exam-surface .exam-surface-header {
+  height: auto;
+  min-height: 72px;
+  padding: 12px 24px;
+  gap: 16px;
+  border-bottom: 1px solid var(--exam-line);
+  box-shadow: none;
+  background: var(--surface);
+}
+.exam-surface .exam-surface-header > div:first-child {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 20px;
+}
+.exam-surface .brand {
+  font-size: 22px;
+  white-space: nowrap;
+}
+.exam-surface .exam-heading-copy {
+  min-width: 0;
+}
+.exam-surface h1.attempt-title {
+  display: block;
+  max-width: 720px;
+  font-size: 18px;
+  font-weight: 650;
+  line-height: 1.4;
+  letter-spacing: normal;
+  overflow-wrap: anywhere;
+}
+.exam-surface .exam-heading-copy p {
+  margin-top: 2px;
+  font-size: 12px;
+}
+.exam-surface .timer {
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 19px;
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.exam-surface .timer-warning {
+  background: var(--exam-wrong-bg);
+  color: var(--exam-wrong);
+}
+.exam-surface .exam-mode-line {
+  max-width: 1280px;
+  margin: 10px auto 0;
+  padding: 0 24px;
+}
+.exam-surface .exam-section-tabs {
+  display: flex;
+  gap: 4px;
+  max-width: 1280px;
+  padding: 0 24px;
+  margin: 8px auto 0;
+  border-bottom: 1px solid var(--exam-line);
+}
+.exam-surface .exam-section-tabs button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--exam-muted);
+  font-size: 13px;
+  transition:
+    color var(--exam-motion),
+    border-color var(--exam-motion);
+}
+.exam-surface .exam-section-tabs button[aria-current] {
+  color: var(--primary-dark);
+  border-color: var(--primary);
+  font-weight: 600;
+}
+.exam-surface .attempt-progress {
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--exam-muted);
+}
+.exam-surface .progress-track {
+  height: 3px;
+  margin: 8px 0 14px;
+}
+.exam-surface .attempt-question {
+  border: 1px solid var(--exam-line);
+  border-radius: 12px;
+  box-shadow: none;
+  padding: 24px;
+  min-height: 320px;
+  margin-bottom: 14px;
+  animation: exam-question-in var(--exam-motion) ease-out;
+}
+.exam-surface .attempt-question > .row-between {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.exam-surface .question-label,
+.exam-surface .attempt-question h2 {
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 650;
+}
+.exam-surface .attempt-question > .row-between .button {
+  min-height: 44px;
+  padding: 8px;
+  font-size: 12px;
+  color: var(--exam-muted);
+}
+.exam-surface .question-text-content,
+.exam-surface .truth-statement,
+.exam-surface .answer-option,
+.exam-surface .review-option {
+  font-size: 15px;
+  line-height: 1.6;
+}
+.exam-surface .math-text {
+  line-height: 1.6;
+}
+.exam-surface .question-text-content {
+  overflow-wrap: anywhere;
+}
+.exam-surface .question-material {
+  margin-top: 12px;
+}
+.exam-surface .answer-options {
+  gap: 10px;
+  margin: 18px 0 12px;
+}
+.exam-surface .answer-option,
+.exam-surface .review-option {
+  min-height: 52px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  transition:
+    background-color var(--exam-motion),
+    border-color var(--exam-motion);
+}
+.exam-surface .answer-option {
+  align-items: flex-start;
+}
+.exam-surface .answer-option input {
+  margin-top: 6px;
+  accent-color: var(--primary);
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+.exam-surface .answer-option:hover:not(:has(input:disabled)) {
+  border-color: var(--primary);
+}
+.exam-surface .answer-option.selected {
+  background: var(--primary-soft);
+  border-color: var(--primary);
+}
+.exam-surface .option-letter {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.exam-surface .truth-table {
+  font-size: 15px;
+}
+.exam-surface .truth-cell {
+  min-height: 48px;
+}
+.exam-surface .truth-table td {
+  transition: background-color var(--exam-motion);
+}
+.exam-surface .short-response input {
+  min-height: 48px;
+  font-size: 17px;
+}
+.exam-surface .attempt-sidebar.panel {
+  position: sticky;
+  top: 92px;
+  padding: 0 0 0 20px;
+  border: 0;
+  border-left: 1px solid var(--exam-line);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  font-size: 13px;
+}
+.exam-surface .exam-map-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  min-height: 44px;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-weight: 600;
+}
+.exam-surface .exam-map-toggle span {
+  flex: 1;
+}
+.exam-surface .exam-map-toggle > svg:last-child {
+  transition: transform var(--exam-motion);
+}
+.exam-surface .exam-map-toggle > svg.expanded {
+  transform: rotate(180deg);
+}
+.exam-surface .exam-map-reveal {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows var(--exam-motion) ease,
+    opacity var(--exam-motion) ease;
+}
+.exam-surface .exam-map-reveal.is-open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+.exam-surface .exam-map-reveal > div {
+  min-height: 0;
+  overflow: hidden;
+  padding: 0 3px;
+}
+.exam-surface .question-nav {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin: 12px 2px;
+}
+.exam-surface .question-nav button {
+  width: 100%;
+  min-height: 44px;
+  border-radius: 7px;
+  font-size: 12px;
+  transition:
+    background-color var(--exam-motion),
+    border-color var(--exam-motion);
+}
+.exam-surface .part-nav {
+  margin-top: 12px;
+}
+.exam-surface .part-nav h3 {
+  font-size: 12px;
+  color: var(--exam-muted);
+}
+.exam-surface .nav-legend {
+  margin: 14px 0;
+  font-size: 12px;
+}
+.exam-surface .save-state {
+  font-size: 12px;
+  color: var(--exam-correct);
+}
+.exam-surface .button {
+  min-height: 44px;
+  box-shadow: none;
+}
+.exam-surface .exam-question-pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.exam-surface .exam-question-pager > span {
+  font-size: 12px;
+  color: var(--exam-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.exam-surface .figure-zoom {
+  height: clamp(160px, 20vw, 260px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  place-items: center;
+  width: 100%;
+  border: 0;
+  background: var(--surface);
+}
+.exam-surface .illustration {
+  min-width: 0;
+  position: relative;
+}
+.exam-surface .figure-zoom img {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.exam-surface .illustration > p[role='status'] {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  background: var(--surface);
+  font-size: 12px;
+}
+.exam-surface .illustration figcaption {
+  font-size: 12px;
+  color: var(--exam-muted);
+}
+.exam-surface .figure-lightbox img {
+  min-height: 0;
+}
+.exam-surface .katex-display {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 6px 2px;
+}
+.exam-surface .review-status {
+  font-size: 12px;
+  padding: 5px 8px;
+}
+.exam-surface .review-correct,
+.exam-surface .question-nav button.review-correct,
+.exam-surface .truth-table td.truth-correct {
+  background: var(--exam-correct-bg);
+  color: var(--exam-correct);
+}
+.exam-surface .review-wrong,
+.exam-surface .question-nav button.review-wrong,
+.exam-surface .truth-table td.truth-wrong {
+  background: var(--exam-wrong-bg);
+  color: var(--exam-wrong);
+}
+.exam-surface .review-blank,
+.exam-surface .question-nav button.review-blank {
+  background: var(--exam-wash);
+  color: var(--exam-blank);
+}
+.exam-surface .review-hidden,
+.exam-surface .question-nav button.review-hidden {
+  color: var(--exam-muted);
+}
+.exam-surface.review-player {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+  background: transparent;
+}
+.exam-surface.review-player .attempt-header {
+  position: relative;
+  top: auto;
+  border: 0;
+  padding: 0 0 14px;
+  background: transparent;
+}
+.exam-surface.review-player .brand {
+  display: none;
+}
+.exam-surface.review-player .attempt-layout {
+  padding: 20px 0;
+}
+.exam-surface.review-player .exam-section-tabs {
+  padding: 0;
+  margin-top: 0;
+}
+.exam-surface .review-result-inline {
+  padding: 0 0 14px;
+  border-bottom: 1px solid var(--exam-line);
+  margin-bottom: 12px;
+}
+.exam-surface .review-result-inline > div {
+  display: grid;
+  gap: 6px;
+}
+.exam-surface .review-result-inline p {
+  font-size: 13px;
+}
+.exam-surface .explanation {
+  margin-top: 18px;
+  background: var(--exam-wash);
+  border: 0;
+}
+.exam-surface .explanation > summary {
+  min-height: 44px;
+  cursor: pointer;
+}
+.exam-surface .explanation[open] > :not(summary) {
+  animation: exam-question-in var(--exam-motion) ease-out;
+}
+.exam-surface .retry-panel {
+  margin-top: 20px;
+}
+.exam-surface .exam-mobile-clock {
+  display: none;
+}
+.result-overview {
+  border-top: 1px solid var(--line);
+  margin-top: 18px;
+  padding-top: 12px;
+}
+.result-overview > summary {
+  min-height: 44px;
+  cursor: pointer;
+  color: var(--primary-dark);
+  font-weight: 600;
+}
+.result-overview > .page-heading {
+  margin-top: 16px;
+}
+.result-overview > .panel,
+.result-overview .result-summary {
+  box-shadow: none;
+}
+.exam-list-heading {
+  margin-bottom: 20px;
+}
+@keyframes exam-question-in {
+  from {
+    opacity: 0.75;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 1000px) {
+  .exam-surface .attempt-layout {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 860px;
+  }
+  .exam-surface .attempt-sidebar.panel {
+    position: static;
+    border: 0;
+    padding: 0;
+  }
+  .exam-surface .question-nav {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+}
+@media (max-width: 640px) {
+  .exam-surface .exam-surface-header {
+    position: relative;
+    min-height: 0;
+    padding: 12px 16px;
+    gap: 8px;
+  }
+  .exam-surface .exam-surface-header > div:first-child {
+    display: block;
+  }
+  .exam-surface .brand {
+    font-size: 18px;
+  }
+  .exam-surface .exam-heading-copy {
+    margin-top: 4px;
+  }
+  .exam-surface h1.attempt-title {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+  .exam-surface .exam-heading-copy p {
+    font-size: 12px;
+  }
+  .exam-surface .exam-mode-line {
+    padding: 0 16px;
+    margin-top: 6px;
+    font-size: 12px;
+  }
+  .exam-surface .exam-section-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+    padding: 0 12px;
+    margin-top: 4px;
+  }
+  .exam-surface .exam-section-tabs button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0;
+    padding: 6px 2px;
+    font-size: 12px;
+    line-height: 1.5;
+    min-width: 0;
+  }
+  .exam-surface .exam-section-name {
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .exam-surface .attempt-layout,
+  .exam-surface.review-player .attempt-layout {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 12px;
+    gap: 12px;
+  }
+  .exam-surface.review-player .attempt-layout {
+    padding: 12px 0;
+  }
+  .exam-surface .attempt-question {
+    padding: 16px;
+    min-height: 0;
+  }
+  .exam-surface .attempt-question > .row-between {
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  .exam-surface .attempt-question > .row-between .button {
+    font-size: 12px;
+    gap: 4px;
+    padding: 6px;
+  }
+  .exam-surface .question-label {
+    font-size: 12px;
+  }
+  .exam-surface .answer-option,
+  .exam-surface .review-option {
+    padding: 10px 12px;
+    gap: 9px;
+  }
+  .exam-surface .question-nav {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+  .exam-surface .attempt-sidebar {
+    display: contents;
+  }
+  .exam-surface .exam-question-map {
+    order: -1;
+    padding: 0 4px 8px;
+    border-bottom: 1px solid var(--exam-line);
+  }
+  .exam-surface .exam-question-map[data-automatic='true'] .exam-map-reveal {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+  .exam-surface .question-material-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .exam-surface .figure-zoom {
+    height: 180px;
+  }
+  .exam-surface .exam-question-pager .button {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+  .exam-surface.attempt-page {
+    padding-bottom: 88px;
+  }
+  .exam-surface.attempt-page .exam-surface-header .timer {
+    display: none;
+  }
+  .exam-surface .exam-submit-action {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
+    background: var(--surface);
+    border-top: 1px solid var(--exam-line);
+    z-index: 25;
+    box-shadow: none;
+  }
+  .exam-surface .exam-mobile-clock {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    font-size: 14px;
+    white-space: nowrap;
+    min-height: 44px;
+  }
+  .exam-surface .exam-submit-action > .button {
+    flex: 1;
+    width: auto;
+    min-height: 44px;
+    font-size: 13px;
+  }
+  .exam-surface .review-result-inline {
+    order: 1;
+    margin-top: 10px;
+  }
+  .exam-surface.review-player .exam-surface-header {
+    display: block;
+    padding-bottom: 10px;
+  }
+  .exam-surface.review-player .exam-surface-header > .badge {
+    display: inline-block;
+    font-size: 12px;
+    margin-top: 4px;
+    padding: 0;
+    background: none;
+    color: var(--exam-muted);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .exam-surface *,
+  .exam-surface *::before,
+  .exam-surface *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.exam-surface .exam-map-heading {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: normal;
+}
+.exam-surface .question-label {
+  letter-spacing: normal;
+}
+.exam-surface .button-ghost {
+  color: var(--exam-muted);
+}
+.exam-surface .math-formula.display-formula {
+  scrollbar-width: thin;
+  scrollbar-color: var(--exam-muted) var(--exam-wash);
+}
+.exam-surface .display-formula .katex-display {
+  overflow: visible;
+  max-width: none;
+}
+.exam-surface .question-nav button {
+  color: var(--exam-muted);
+}
+.exam-surface .question-nav button.answered {
+  color: var(--primary-dark);
+}
+.exam-surface .exam-surface-header > .badge {
+  color: var(--exam-muted);
+  background: none;
+  padding: 0;
+  font-size: 12px;
+}
+.exam-surface {
+  --exam-motion: var(--motion-fast);
+  font-family: var(--font);
+  font-size: var(--text-body);
+}
+.exam-surface .brand {
+  font-family: var(--font);
+  font-size: 20px;
+}
+.exam-surface .brand .brand-name {
+  font-size: inherit;
+}
+.exam-surface .attempt-question {
+  background: var(--reading-paper);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+.exam-surface .answer-option,
+.exam-surface .review-option {
+  border-radius: var(--radius-control);
+}
+.exam-surface .exam-section-tabs button {
+  min-height: var(--control-height);
+}
+.exam-surface .question-nav button {
+  border-radius: var(--radius-control);
+}
+.exam-surface
+  .question-nav
+  button:not(.answered):not(.review-correct):not(.review-wrong):not(.review-blank):not(
+    .review-hidden
+  ) {
+  background: var(--surface);
+}
+.exam-surface .answer-option.selected {
+  background: var(--primary-soft);
+  border-color: var(--primary);
+}
+.exam-surface .option-letter {
+  border-color: var(--line);
+  background: var(--muted-surface);
+  color: var(--ink);
+}
+.exam-surface .selected .option-letter {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border-color: var(--primary);
+}
+.exam-surface .review-correct,
+.exam-surface .question-nav button.review-correct {
+  border-color: var(--correct-border);
+}
+.exam-surface .review-wrong,
+.exam-surface .question-nav button.review-wrong {
+  border-color: var(--wrong-border);
+}
+.exam-surface .review-blank,
+.exam-surface .question-nav button.review-blank {
+  background: var(--blank-background);
+  border-color: var(--blank-border);
+  color: var(--blank);
+}
+@media (max-width: 640px) {
+  .exam-surface .attempt-question {
+    padding: 16px;
+  }
+  .exam-surface .brand {
+    font-size: 18px;
+  }
+}
+/* Practice feedback changes existing controls; no second copy of the answers. */
+.exam-surface .practice-inline-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 28px;
+  margin: 12px 0 0;
+  font-size: 13px;
+}
+.practice-inline-status > span {
+  display: inline-flex;
+}
+.exam-surface .answer-option.practice-correct {
+  background: var(--correct-background);
+  border-color: var(--correct);
+  color: var(--correct);
+}
+.exam-surface .answer-option.practice-wrong {
+  background: var(--wrong-background);
+  border-color: var(--wrong);
+  color: var(--wrong);
+}
+.exam-surface .practice-correct .option-letter {
+  background: var(--correct-background);
+  border-color: var(--correct);
+  color: var(--correct);
+}
+.exam-surface .practice-wrong .option-letter {
+  background: var(--wrong-background);
+  border-color: var(--wrong);
+  color: var(--wrong);
+}
+.exam-surface .practice-correct input {
+  accent-color: var(--correct);
+}
+.exam-surface .practice-wrong input {
+  accent-color: var(--wrong);
+}
+.exam-surface .practice-option-indicator {
+  display: inline-flex;
+  align-items: center;
+  width: 20px;
+  min-width: 20px;
+  height: 24px;
+  margin-left: auto;
+}
+.exam-surface .answer-option.practice-option > div {
+  flex: 1;
+  min-width: 0;
+}
+.practice-short-field {
+  position: relative;
+  display: block;
+}
+.exam-surface .short-response .practice-short-field input[type='text'] {
+  padding-right: 44px;
+  height: 52px;
+  box-sizing: border-box;
+  border-width: 2px;
+}
+.practice-short-icon {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 12px;
+  width: 20px;
+}
+.exam-surface .short-response .practice-short-field.practice-short-correct input {
+  border: 2px solid var(--correct);
+  background: var(--correct-background);
+}
+.exam-surface .short-response .practice-short-field.practice-short-wrong input {
+  border: 2px solid var(--wrong);
+  background: var(--wrong-background);
+}
+.practice-short-correct .practice-short-icon {
+  color: var(--correct);
+}
+.practice-short-wrong .practice-short-icon {
+  color: var(--wrong);
+}
+.exam-surface .practice-short-field input:disabled {
+  opacity: 1;
+  color: var(--ink);
+  -webkit-text-fill-color: var(--ink);
+}
+.practice-short-note {
+  display: block;
+  min-height: 3.2em;
+  font-size: 13px;
+  color: var(--wrong);
+  overflow-wrap: anywhere;
+}
+.exam-surface .practice-truth-cell {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+}
+.practice-truth-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  min-width: 14px;
+  height: 18px;
+}
+.exam-surface .truth-correct input {
+  accent-color: var(--correct);
+}
+.exam-surface .truth-wrong input {
+  accent-color: var(--wrong);
+}
+.exam-surface .practice-feedback {
+  min-height: 168px;
+  padding-top: 12px;
+  overflow-anchor: none;
+}
+.practice-controls-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.practice-controls-note {
+  min-height: 3.2em;
+  margin-top: 12px;
+}
+.exam-surface .practice-feedback .explanation {
+  margin-top: 12px;
+}
+.practice-inline-status[data-result='correct'] {
+  color: var(--correct);
+}
+.practice-inline-status[data-result='wrong'] {
+  color: var(--wrong);
+}

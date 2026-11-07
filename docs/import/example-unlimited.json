@@ -1,0 +1,142 @@
+{
+  "format": "lop-minh-exam",
+  "version": 1,
+  "package_id": "d7177e1c-da86-488f-9dda-745176925069",
+  "exam": {
+    "title": "Đề mẫu không giới hạn thời gian",
+    "description": "Ví dụ minh họa định dạng, không phải đề thi chính thức.",
+    "instructions": "Chọn một đáp án ở phần I; chọn Đ/S cho từng ý phần II; nhập số hoặc văn bản ở phần III.",
+    "duration_minutes": null
+  },
+  "sections": [
+    {
+      "id": "I",
+      "questions": [
+        {
+          "id": "I-Q1",
+          "type": "single",
+          "content": "Giá trị của $\\int_0^1 2x\\,dx$ bằng bao nhiêu?",
+          "explanation": "Ta có $\\int_0^1 2x\\,dx=[x^2]_0^1=1$.",
+          "points": 1,
+          "images": [],
+          "options": [
+            {
+              "id": "I-Q1-A",
+              "text": "$0$"
+            },
+            {
+              "id": "I-Q1-B",
+              "text": "$1$"
+            },
+            {
+              "id": "I-Q1-C",
+              "text": "$2$"
+            },
+            {
+              "id": "I-Q1-D",
+              "text": "$-1$"
+            }
+          ],
+          "answer": {
+            "origin": "ai",
+            "choice_id": "I-Q1-B"
+          }
+        }
+      ]
+    },
+    {
+      "id": "II",
+      "questions": [
+        {
+          "id": "II-Q1",
+          "type": "boolean_group",
+          "content": "Cho hàm số $f(x)=x^2$. Xét tính đúng sai của bốn nhận định.",
+          "explanation": "Ta có $f'(x)=2x$, $f(0)=0$, $f(-1)=1$. Đồ thị đi qua gốc tọa độ.",
+          "points": 4,
+          "images": [],
+          "statements": [
+            {
+              "id": "II-Q1-a",
+              "text": "$f'(x)=2x$."
+            },
+            {
+              "id": "II-Q1-b",
+              "text": "$f(0)=1$."
+            },
+            {
+              "id": "II-Q1-c",
+              "text": "$f(-1)=1$."
+            },
+            {
+              "id": "II-Q1-d",
+              "text": "Đồ thị không đi qua gốc tọa độ."
+            }
+          ],
+          "scoring_mode": "per_statement",
+          "answer": {
+            "origin": "ai",
+            "values": [
+              {
+                "statement_id": "II-Q1-c",
+                "value": true
+              },
+              {
+                "statement_id": "II-Q1-a",
+                "value": true
+              },
+              {
+                "statement_id": "II-Q1-d",
+                "value": false
+              },
+              {
+                "statement_id": "II-Q1-b",
+                "value": false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "III",
+      "questions": [
+        {
+          "id": "III-Q1",
+          "type": "short",
+          "content": "Tính $-\\frac{5}{4}$, viết dưới dạng số thập phân.",
+          "explanation": "$-\\frac{5}{4}=-1{,}25$.",
+          "points": 2,
+          "images": [],
+          "answer": {
+            "origin": "ai",
+            "mode": "numeric",
+            "accepted": [
+              "-1.25",
+              "-1,250"
+            ],
+            "tolerance": "0.01",
+            "case_sensitive": false
+          }
+        },
+        {
+          "id": "III-Q2",
+          "type": "short",
+          "content": "Thủ đô của Việt Nam là thành phố nào?",
+          "explanation": "Thủ đô là Hà Nội.",
+          "points": 1,
+          "images": [],
+          "answer": {
+            "origin": "document",
+            "mode": "text",
+            "accepted": [
+              "Hà Nội",
+              "Thủ đô Hà Nội"
+            ],
+            "tolerance": "0",
+            "case_sensitive": false
+          }
+        }
+      ]
+    }
+  ]
+}

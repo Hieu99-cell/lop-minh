@@ -1,0 +1,57 @@
+{
+  "name": "lop-hoc",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "predev": "node scripts/copy-pdf-assets.mjs",
+    "prebuild": "node scripts/copy-pdf-assets.mjs",
+    "dev": "next dev --hostname 0.0.0.0",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:browser": "playwright test",
+    "format": "prettier --write src tests docs README.md *.ts *.mjs *.json"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^5.2.0",
+    "@napi-rs/canvas": "^1.0.13",
+    "@supabase/ssr": "^0.7.0",
+    "@supabase/supabase-js": "^2.80.0",
+    "clsx": "^2.1.1",
+    "katex": "^0.19.1",
+    "lucide-react": "^0.468.0",
+    "next": "^16.0.0",
+    "pdfjs-dist": "^6.4.299",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-hook-form": "^7.66.0",
+    "server-only": "^0.0.1",
+    "sharp": "^0.35.5",
+    "tailwind-merge": "^3.3.0",
+    "yauzl": "^3.4.0",
+    "zod": "^4.1.0"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.11",
+    "@playwright/test": "^1.64.1",
+    "@tailwindcss/postcss": "^4.1.0",
+    "@types/katex": "^0.16.7",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@types/yauzl": "^3.4.0",
+    "eslint": "^9.39.0",
+    "eslint-config-next": "^16.0.0",
+    "prettier": "^3.9.10",
+    "tailwindcss": "^4.1.0",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.0",
+    "vitest": "^5.0.5"
+  }
+}
